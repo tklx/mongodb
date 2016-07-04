@@ -35,3 +35,11 @@ RUN set -x \
     && apt-get -y install mongodb-server \
     && apt-clean --aggressive
 
+VOLUME /data/db
+RUN mkdir -p /data/db && chown -R mongodb:mongodb /data/db
+
+COPY entrypoint /entrypoint
+ENTRYPOINT ["/tini", "--", "/entrypoint"]
+EXPOSE 27017
+CMD ["mongod"]
+
