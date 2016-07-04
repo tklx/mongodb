@@ -30,3 +30,8 @@ RUN set -x \
     && apt-get purge -y --auto-remove wget ca-certificates \
     && apt-clean --aggressive
 
+RUN set -x \
+    && apt-get update \
+    && apt-get -y install mongodb-server \
+    && apt-clean --aggressive
+
