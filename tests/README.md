@@ -8,7 +8,7 @@ bats/install.sh /usr/local
 ## Run the tests
 
 ```console
-IMAGE=tklx/mongodb bats --tap test/basics.bats
+IMAGE=tklx/mongodb bats --tap tests/basics.bats
 
 init: running tklx/mongodb
 init: waiting for tklx/mongodb to accept connections...
