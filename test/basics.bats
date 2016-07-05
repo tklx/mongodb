@@ -5,6 +5,8 @@ fatal() { echo "fatal [$(basename $BATS_TEST_FILENAME)]: $@" 1>&2; exit 1; }
 [ "$IMAGE" ] || fatal "IMAGE envvar not set"
 [ "$(docker images -q $IMAGE | wc -l)" = "1" ] || fatal "$IMAGE not in cache"
 
+DAEMON_ARGS="--smallfiles --noprealloc"
+
 mongo() {
     docker run --rm -i --link "$CNAME":mongo "$IMAGE" mongo --host mongo "$@"
 }
@@ -18,7 +20,7 @@ _init() {
 
     echo >&2 "init: running $IMAGE"
     export CNAME="mongodb-$RANDOM-$RANDOM"
-    export CID="$(docker run -d --name "$CNAME" "$IMAGE")"
+    export CID="$(docker run -d --name "$CNAME" "$IMAGE" $DAEMON_ARGS)"
     trap "docker rm -vf $CID > /dev/null" EXIT
 
     echo -n >&2 "init: waiting for $IMAGE to accept connections"
