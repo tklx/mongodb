@@ -3,6 +3,7 @@
 fatal() { echo "fatal [$(basename $BATS_TEST_FILENAME)]: $@" 1>&2; exit 1; }
 
 [ "$IMAGE" ] || fatal "IMAGE envvar not set"
+[ "$(docker images -q $IMAGE | wc -l)" = "1" ] || fatal "$IMAGE not in cache"
 
 mongo() {
     docker run --rm -i --link "$CNAME":mongo "$IMAGE" mongo --host mongo "$@"
