@@ -14,7 +14,7 @@ integration with certain types of applications easier and faster.
 - Uses [gosu][gosu] for dropping privileges to mongodb user.
 - Includes ``VOLUME /data/db`` for dbPath persistence.
 - Includes ``EXPOSE 27017``, so standard container linking will make it
-  automatically available to the linked containers (see below).
+  automatically available to the linked containers.
 
 ## Usage
 
@@ -84,6 +84,8 @@ tracking of bugs, issues and feature requests.
 
 [mongodb]: http://www.mongodb.org
 [base]: https://github.com/tklx/base
+[tini]: https://github.com/krallin/tini
+[gosu]: https://github.com/tianon/gosu
 [mongo_authentication]: https://docs.mongodb.org/manual/core/authentication/
 [mongo_authorization]: https://docs.mongodb.org/manual/core/authorization/
 [semver]: http://semver.org/
