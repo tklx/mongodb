@@ -9,12 +9,12 @@ integration with certain types of applications easier and faster.
 ## Features
 
 - Based on the super slim [tklx/base][base] (Debian GNU/Linux).
-- MongoDB installed directly from Debian.
+- MongoDB installed from official upstream repo.
 - Uses [tini][tini] for zombie reaping and signal forwarding.
-- Uses [gosu][gosu] for dropping privileges to mongodb user.
 - Includes ``VOLUME /data/db`` for dbPath persistence.
 - Includes ``EXPOSE 27017``, so standard container linking will make it
   automatically available to the linked containers.
+- Includes ``USER mongodb`` to restrict the privileges of mongod.
 
 ## Usage
 
@@ -38,16 +38,15 @@ $ docker run --name some-mongo -d tklx/mongodb --auth
 
 $ docker exec -it some-mongo mongo admin
 connecting to: admin
-> db.addUser({ user: 'some-user', pwd: 'some-pass', roles: [ 'dbAdmin', 'readWrite', 'userAdmin' ] })
-{
+> db.createUser({ user: 'some-user', pwd: 'some-pass', roles: [ { role: 'userAdminAnyDatabase', db: 'admin' } ] })
+Successfully added user: {
         "user" : "some-user",
-        "pwd" : "9a08230f3c2f4432866d8c3b3ec5a500",
         "roles" : [
-                "dbAdmin",
-                "readWrite",
-                "userAdmin"
-        ],
-        "_id" : ObjectId("577aa9837a2084aaed68ec07")
+                {
+                        "role" : "userAdminAnyDatabase",
+                        "db" : "admin"
+                }
+        ]
 }
 
 $ docker run -it --rm --link some-mongo:mongo tklx/mongodb \
@@ -85,8 +84,7 @@ tracking of bugs, issues and feature requests.
 [mongodb]: http://www.mongodb.org
 [base]: https://github.com/tklx/base
 [tini]: https://github.com/krallin/tini
-[gosu]: https://github.com/tianon/gosu
-[mongo_authentication]: https://docs.mongodb.org/manual/core/authentication/
+[mongo_authentication]: https://docs.mongodb.com/manual/tutorial/enable-authentication/
 [mongo_authorization]: https://docs.mongodb.org/manual/core/authorization/
 [semver]: http://semver.org/
 [tracker]: https://github.com/tklx/tracker/issues

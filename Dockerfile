@@ -15,28 +15,19 @@ RUN set -x \
     && apt-get purge -y --auto-remove wget ca-certificates \
     && apt-clean --aggressive
 
-ENV GOSU_VERSION=1.9
+ENV MONGO_VERSION=3.2
 RUN set -x \
-    && GOSU_URL=https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture) \
-    && GOSU_GPGKEY=B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-    && export GNUPGHOME="$(mktemp -d)" \
-    && apt-get update && apt-get -y install wget ca-certificates \
-    && wget -O /usr/local/sbin/gosu ${GOSU_URL} \
-    && wget -O /usr/local/sbin/gosu.asc ${GOSU_URL}.asc \
-    && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys ${GOSU_GPGKEY} \
-    && gpg --verify /usr/local/sbin/gosu.asc \
-    && chmod +x /usr/local/sbin/gosu && gosu nobody true \
-    && rm -r ${GNUPGHOME} /usr/local/sbin/gosu.asc \
-    && apt-get purge -y --auto-remove wget ca-certificates \
-    && apt-clean --aggressive
-
-RUN set -x \
+    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927 \
+    && echo "deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/$MONGO_VERSION main" >> /etc/apt/sources.list.d/mongodb-org-$MONGO_VERSION.list \
     && apt-get update \
-    && apt-get -y install mongodb-server \
+    && apt-get -y install mongodb-org mongodb-org-server mongodb-org-shell mongodb-org-mongos mongodb-org-tools \
+    && echo 'Package: mongodb-org*\nPin: release o=mongodb\nPin-priority: 995\n\nPackage: *\nPin: release o=mongodb\nPin-priority: -10' >> /etc/apt/preferences.d/mongodb \
     && apt-clean --aggressive
 
-VOLUME /data/db
 RUN mkdir -p /data/db && chown -R mongodb:mongodb /data/db
+
+USER mongodb
+VOLUME /data/db
 
 COPY entrypoint /entrypoint
 ENTRYPOINT ["/tini", "--", "/entrypoint"]
