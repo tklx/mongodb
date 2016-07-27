@@ -15,11 +15,12 @@ RUN set -x \
     && apt-get purge -y --auto-remove wget ca-certificates \
     && apt-clean --aggressive
 
+ENV MONGO_VERSION=3.2
 RUN set -x \
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927 \
-    && echo "deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/3.2 main" >> /etc/apt/sources.list.d/mongodb-org-3.2.list \
+    && echo "deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/$MONGO_VERSION main" >> /etc/apt/sources.list.d/mongodb-org-$MONGO_VERSION.list \
     && apt-get update \
-    && apt-get -y install mongodb-org=3.2.8 mongodb-org-server=3.2.8 mongodb-org-shell=3.2.8 mongodb-org-mongos=3.2.8 mongodb-org-tools=3.2.8 \
+    && apt-get -y install mongodb-org mongodb-org-server mongodb-org-shell mongodb-org-mongos mongodb-org-tools \
     && apt-clean --aggressive
 
 RUN mkdir -p /data/db && chown -R mongodb:mongodb /data/db
