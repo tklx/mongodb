@@ -16,8 +16,10 @@ RUN set -x \
     && apt-clean --aggressive
 
 RUN set -x \
+    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927 \
+    && echo "deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/3.2 main" >> /etc/apt/sources.list.d/mongodb-org-3.2.list \
     && apt-get update \
-    && apt-get -y install mongodb-server \
+    && apt-get -y install mongodb-org=3.2.8 mongodb-org-server=3.2.8 mongodb-org-shell=3.2.8 mongodb-org-mongos=3.2.8 mongodb-org-tools=3.2.8 \
     && apt-clean --aggressive
 
 RUN mkdir -p /data/db && chown -R mongodb:mongodb /data/db
