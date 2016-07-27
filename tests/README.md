@@ -1,7 +1,7 @@
 ## Install dependencies
 
 ```console
-git clone https://github.com/sstephenson/bats.git
+git clone https://github.com/tklx/bats.git
 bats/install.sh /usr/local
 ```
 
