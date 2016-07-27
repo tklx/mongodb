@@ -38,9 +38,9 @@ echo -e "## ${version:-0.1.0}\n"
 echo -e "<replace with high level summary>\n"
 echo -e "#### New features\n"
 echo -e "#### Bugfixes\n"
-echo "${gitlog}" | grep fix && echo || true
+echo "${gitlog}" | grep -i fix && echo || true
 echo -e "#### Other changes\n"
-echo "${gitlog}" | grep -v fix && echo || true
+echo "${gitlog}" | grep -vi fix && echo || true
 [ -e CHANGELOG.md ] && cat CHANGELOG.md
 
 exit 0
