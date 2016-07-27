@@ -11,10 +11,10 @@ integration with certain types of applications easier and faster.
 - Based on the super slim [tklx/base][base] (Debian GNU/Linux).
 - MongoDB installed from official upstream repo.
 - Uses [tini][tini] for zombie reaping and signal forwarding.
+- Includes ``USER mongodb`` to restrict the privileges of mongod.
 - Includes ``VOLUME /data/db`` for dbPath persistence.
 - Includes ``EXPOSE 27017``, so standard container linking will make it
   automatically available to the linked containers.
-- Includes ``USER mongodb`` to restrict the privileges of mongod.
 
 ## Usage
 
@@ -60,6 +60,9 @@ some-db
 ### Tips
 
 ```console
+# interactive root terminal
+$ docker run --rm -it -u root tklx/mongodb /bin/bash
+
 # mongo client options
 $ docker run --rm tklx/mongodb mongo --help
 
