@@ -1,4 +1,5 @@
 # tklx/mongodb - NoSQL database
+[![CircleCI](https://circleci.com/gh/tklx/mongodb.svg?style=shield)](https://circleci.com/gh/tklx/mongodb)
 
 [MongoDB][mongodb] (from "humongous") is a scalable, high-performance
 document-oriented NoSQL database system. Instead of storing data in
@@ -72,6 +73,13 @@ $ docker run --rm tklx/mongodb --help
 # while testing
 $ docker run --name test-mongo -d tklx/mongodb --smallfiles --noprealloc
 ```
+
+## Automated builds
+
+The [Docker image](https://hub.docker.com/r/tklx/mongodb/) is built, tested and pushed by [CircleCI](https://circleci.com/gh/tklx/mongodb) from source hosted on [GitHub](https://github.com/tklx/mongodb).
+
+* Tag: ``x.y.z`` refers to a [release](https://github.com/tklx/mongodb/releases) (recommended).
+* Tag: ``latest`` refers to the master branch.
 
 ## Status
 
