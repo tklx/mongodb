@@ -27,7 +27,7 @@ _init() {
     echo >&2 "init: running $IMAGE"
     export CNAME="mongodb-$RANDOM-$RANDOM"
     export CID="$(docker run -d --name "$CNAME" "$IMAGE" $DAEMON_ARGS)"
-    trap "docker rm -vf $CID > /dev/null" EXIT
+    [ "$CIRCLECI" = "true" ] || trap "docker rm -vf $CID > /dev/null" EXIT
 
     echo -n >&2 "init: waiting for $IMAGE to accept connections"
     tries=10
