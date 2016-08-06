@@ -1,3 +1,14 @@
+## 0.3.0
+
+Remove unused default users, groups, set MongoDB user to UID and GID 999.
+
+#### Notes
+
+- MongoDB UID and GID are set to 999 to avoid clashes with host.
+- libc6 and libc-bin v2.23 are pulled in from Debian Stretch to avoid [CVE-2014-9761](https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9761)/[CVE-2016-4429](https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4429).
+- Users other than root, mail and mongodb are removed.
+- Groups other than root, adm, tty, mail, shadow, utmp, staff and mongodb are removed.
+
 ## 0.2.0
 
 Install MongoDB directly from upstream (security).
