@@ -17,6 +17,8 @@ RUN set -x \
 
 ENV MONGO_VERSION=3.2
 RUN set -x \
+    && groupadd -g 999 mongodb \
+    && useradd -u 999 -g 999 mongodb \
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927 \
     && echo "deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/$MONGO_VERSION main" >> /etc/apt/sources.list.d/mongodb.list \
     && echo 'Package: mongodb-org*\nPin: release o=mongodb\nPin-priority: 995\n\nPackage: *\nPin: release o=mongodb\nPin-priority: -10' >> /etc/apt/preferences.d/mongodb \
