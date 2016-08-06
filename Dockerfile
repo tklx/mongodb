@@ -15,6 +15,12 @@ RUN set -x \
     && apt-get purge -y --auto-remove wget ca-certificates \
     && apt-clean --aggressive
 
+# Remove dummy user/group accounts
+ENV USER_KEEP='root\|mail' GROUP_KEEP='adm\|tty\|mail\|shadow\|utmp\|staff\|root'
+RUN set -x \
+    && cat /etc/passwd | cut -d':' -f1 | sed "/^${USER_KEEP}$/d"  | xargs -n 1 userdel \
+    && cat /etc/group  | cut -d':' -f1 | sed "/^${GROUP_KEEP}$/d" | xargs -n 1 groupdel
+
 ENV MONGO_VERSION=3.2
 RUN set -x \
     && groupadd -g 999 mongodb \
