@@ -20,9 +20,14 @@ RUN set -x \
     && groupadd -g 999 mongodb \
     && useradd -u 999 -g 999 mongodb \
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927 \
+    # Debian stretch for security updates
+    && echo "deb http://http.debian.net/debian stretch main" >> /etc/apt/sources.list.d/mongodb.list \
+    && echo 'Package: libc-bin libc6\nPin: release n=stretch\nPin-priority: 900\n\nPackage: *\nPin: release n=stretch\nPin-priority: -10' >> /etc/apt/preferences.d/stretch \
+    # Upstream MongoDB repo
     && echo "deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/$MONGO_VERSION main" >> /etc/apt/sources.list.d/mongodb.list \
     && echo 'Package: mongodb-org*\nPin: release o=mongodb\nPin-priority: 995\n\nPackage: *\nPin: release o=mongodb\nPin-priority: -10' >> /etc/apt/preferences.d/mongodb \
     && apt-get update \
+    && apt-get -y install libc-bin libc6 \
     && apt-get -y install mongodb-org \
     && apt-clean --aggressive
 
